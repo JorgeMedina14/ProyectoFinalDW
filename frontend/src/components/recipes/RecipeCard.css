@@ -1,0 +1,356 @@
+.recipe-card {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 10px;
+  padding: 20px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  height: fit-content;
+}
+
+.recipe-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.recipe-card h3 {
+  color: #333;
+  margin-bottom: 15px;
+  font-size: 18px;
+  border-bottom: 2px solid #667eea;
+  padding-bottom: 10px;
+}
+
+.recipe-info {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.recipe-info span {
+  background: #e9ecef;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.prep-time {
+  background: #d4edda !important;
+  color: #155724;
+}
+
+.servings {
+  background: #d1ecf1 !important;
+  color: #0c5460;
+}
+
+.difficulty {
+  background: #f8d7da !important;
+  color: #721c24;
+}
+
+.recipe-ingredients {
+  margin-bottom: 20px;
+}
+
+.recipe-ingredients h4 {
+  color: #495057;
+  margin-bottom: 8px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.recipe-ingredients ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 15px;
+}
+
+.recipe-ingredients li {
+  padding: 5px 0;
+  border-bottom: 1px dotted #dee2e6;
+}
+
+.ingredient-have {
+  color: #28a745;
+}
+
+.ingredient-have::before {
+  content: "✓ ";
+  font-weight: bold;
+}
+
+.ingredient-buy {
+  color: #ffc107;
+}
+
+.ingredient-buy::before {
+  content: "🛒 ";
+}
+
+.recipe-instructions {
+  margin-bottom: 20px;
+}
+
+.recipe-instructions h4 {
+  color: #495057;
+  margin-bottom: 10px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.recipe-instructions ol {
+  padding-left: 20px;
+}
+
+.recipe-instructions li {
+  margin-bottom: 8px;
+  line-height: 1.6;
+  color: #6c757d;
+}
+
+.recipe-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-save-recipe {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 10px rgba(40, 167, 69, 0.3);
+}
+
+.btn-save-recipe:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+}
+
+.btn-favorite {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 10px rgba(108, 117, 125, 0.3);
+}
+
+.btn-favorite.favorited {
+  background: linear-gradient(135deg, #e91e63 0%, #ad1457 100%);
+  box-shadow: 0 3px 10px rgba(233, 30, 99, 0.3);
+}
+
+.btn-favorite:hover {
+  transform: translateY(-2px);
+}
+
+.recipe-meta {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #dee2e6;
+  text-align: center;
+}
+
+.recipe-meta small {
+  color: #6c757d;
+}
+
+/* Responsive */
+/* Mobile Recipe Card Styles */
+@media (max-width: 768px) {
+  .recipe-card {
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  .recipe-card h3 {
+    font-size: 16px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+  }
+
+  .recipe-info {
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .recipe-info span {
+    padding: 6px 12px;
+    font-size: 11px;
+    border-radius: 12px;
+  }
+
+  .recipe-ingredients,
+  .recipe-instructions {
+    margin-bottom: 15px;
+  }
+
+  .recipe-ingredients h4,
+  .recipe-instructions h4 {
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+
+  .recipe-ingredients ul {
+    margin-bottom: 12px;
+  }
+
+  .recipe-ingredients li {
+    padding: 4px 0;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .recipe-instructions ol {
+    padding-left: 16px;
+  }
+
+  .recipe-instructions li {
+    margin-bottom: 6px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  
+  .recipe-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .btn-save-recipe,
+  .btn-delete-recipe {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+    border-radius: 8px;
+    margin: 0;
+  }
+}
+
+/* Small Mobile Recipe Card Styles */
+@media (max-width: 480px) {
+  .recipe-card {
+    padding: 12px;
+    margin: 8px 0;
+  }
+
+  .recipe-card h3 {
+    font-size: 15px;
+  }
+
+  .recipe-info {
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .recipe-info span {
+    width: 100%;
+    text-align: center;
+    padding: 8px;
+  }
+
+  .recipe-ingredients h4,
+  .recipe-instructions h4 {
+    font-size: 12px;
+  }
+
+  .recipe-ingredients li,
+  .recipe-instructions li {
+    font-size: 13px;
+  }
+}
+
+/* Estilos para información nutricional */
+.nutrition-actions {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.btn-edit-nutrition {
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+}
+
+.btn-edit-nutrition:hover {
+  background: linear-gradient(135deg, #0284c7, #0369a1);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4);
+}
+
+.nutrition-editor-container {
+  margin: 20px 0;
+}
+
+.nutrition-editor-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.btn-cancel-nutrition {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-cancel-nutrition:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+}
+
+.btn-cancel-nutrition:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Responsive para botones nutricionales */
+@media (max-width: 768px) {
+  .btn-edit-nutrition {
+    width: 100%;
+    max-width: 300px;
+    font-size: 0.8rem;
+    padding: 10px 20px;
+  }
+
+  .nutrition-editor-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn-cancel-nutrition {
+    width: 100%;
+    max-width: 200px;
+  }
+}

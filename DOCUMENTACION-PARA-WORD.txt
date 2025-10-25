@@ -1,0 +1,602 @@
+DOCUMENTACIÓN TÉCNICA COMPLETA
+Sistema de Planificación de Menús Semanales con IA
+
+Universidad Mariano Gálvez de Guatemala
+Fecha: Octubre 2024
+Desarrollador: Jorge Medina
+
+═══════════════════════════════════════════════════════════════════════════
+
+ÍNDICE
+
+1. Resumen Ejecutivo
+2. Arquitectura del Sistema
+3. Tecnologías Utilizadas
+4. Frontend - Aplicación React
+5. Backend - API REST
+6. Base de Datos
+7. Integraciones Externas
+8. Funcionalidades Principales
+9. Seguridad
+10. Instalación y Configuración
+11. Guías de Usuario
+12. Conclusiones y Trabajo Futuro
+
+═══════════════════════════════════════════════════════════════════════════
+
+1. RESUMEN EJECUTIVO
+
+1.1 Descripción del Proyecto
+
+El Sistema de Planificación de Menús Semanales con IA es una aplicación web completa que permite a los usuarios gestionar sus ingredientes, generar recetas automáticamente usando inteligencia artificial, planificar menús semanales y recibir notificaciones personalizadas sobre comidas.
+
+1.2 Objetivos
+
+Principal: Automatizar la planificación de menús semanales usando IA
+Secundarios: 
+• Detectar ingredientes mediante visión artificial
+• Calcular información nutricional automáticamente
+• Generar listas de compras inteligentes
+• Enviar notificaciones personalizadas por email
+
+1.3 Alcance
+
+✓ Aplicación web responsive
+✓ API REST completa
+✓ Integración con OpenAI GPT
+✓ Sistema de notificaciones por email
+✓ Cálculo nutricional automático
+✓ Detección de ingredientes por imagen
+
+═══════════════════════════════════════════════════════════════════════════
+
+2. ARQUITECTURA DEL SISTEMA
+
+2.1 Arquitectura General
+
+[FRONTEND]          HTTP/HTTPS          [BACKEND]
+React.js     ←─────────────────→      Node.js
+(Puerto 3000)                         (Puerto 5000)
+                                           │
+                               ┌───────────────────┐
+                               │   INTEGRACIONES   │
+                               │                   │
+                               │ • MongoDB Atlas   │
+                               │ • OpenAI GPT-4    │
+                               │ • Gmail SMTP      │
+                               │ • Google Vision   │
+                               └───────────────────┘
+
+2.2 Patrón de Arquitectura
+
+• Patrón: Cliente-Servidor con arquitectura de 3 capas
+• Frontend: SPA (Single Page Application) con React
+• Backend: API REST con Node.js y Express
+• Base de Datos: MongoDB (NoSQL)
+
+═══════════════════════════════════════════════════════════════════════════
+
+3. TECNOLOGÍAS UTILIZADAS
+
+3.1 Frontend
+
+┌─────────────────┬─────────┬────────────────────────────────┐
+│ Tecnología      │ Versión │ Propósito                      │
+├─────────────────┼─────────┼────────────────────────────────┤
+│ React.js        │ ^18.2.0 │ Framework principal para UI    │
+│ React Router    │ ^6.8.0  │ Navegación entre páginas       │
+│ Axios           │ ^1.3.4  │ Cliente HTTP para API calls    │
+│ CSS3            │ -       │ Estilos y responsive design    │
+│ HTML5           │ -       │ Estructura semántica           │
+└─────────────────┴─────────┴────────────────────────────────┘
+
+3.2 Backend
+
+┌─────────────────┬─────────┬────────────────────────────────┐
+│ Tecnología      │ Versión │ Propósito                      │
+├─────────────────┼─────────┼────────────────────────────────┤
+│ Node.js         │ ^18.x   │ Runtime de JavaScript          │
+│ Express.js      │ ^4.18.2 │ Framework web                  │
+│ MongoDB         │ ^5.x    │ Base de datos NoSQL            │
+│ Mongoose        │ ^7.0.3  │ ODM para MongoDB               │
+│ JWT             │ ^9.0.0  │ Autenticación y autorización   │
+│ Bcrypt          │ ^5.1.0  │ Encriptación de contraseñas    │
+│ Multer          │ ^1.4.5  │ Manejo de archivos             │
+│ Nodemailer      │ ^6.9.1  │ Envío de emails                │
+│ node-cron       │ ^3.0.2  │ Programación de tareas         │
+└─────────────────┴─────────┴────────────────────────────────┘
+
+3.3 Integraciones
+
+┌─────────────────┬────────────────────────────────────────┐
+│ Servicio        │ Propósito                              │
+├─────────────────┼────────────────────────────────────────┤
+│ OpenAI GPT-4    │ Generación de recetas con IA           │
+│ Google Vision   │ Detección de ingredientes en imágenes  │
+│ Gmail SMTP      │ Envío de notificaciones por email      │
+│ MongoDB Atlas   │ Base de datos en la nube              │
+└─────────────────┴────────────────────────────────────────┘
+
+═══════════════════════════════════════════════════════════════════════════
+
+4. FRONTEND - APLICACIÓN REACT
+
+4.1 Estructura de Carpetas
+
+frontend/src/
+├── components/              # Componentes reutilizables
+│   ├── auth/               # Autenticación
+│   │   ├── Login.js        # Inicio de sesión
+│   │   └── Register.js     # Registro de usuario
+│   ├── dashboard/          # Panel principal
+│   │   └── Dashboard.js    # Dashboard principal
+│   ├── recipes/           # Gestión de recetas
+│   │   ├── Recipes.js     # Lista de recetas
+│   │   ├── RecipeCard.js  # Tarjeta de receta
+│   │   └── RecipeGenerator.js # Generador con IA
+│   ├── nutrition/         # Información nutricional
+│   │   ├── NutritionalInfo.js       # Visualización
+│   │   └── NutritionalInfoEditor.js # Edición
+│   ├── menu/              # Planificación de menús
+│   │   └── WeeklyMenuPlanner.js # Planificador semanal
+│   ├── notifications/     # Sistema de notificaciones
+│   │   └── NotificationSettings.js # Configuración
+│   └── common/            # Componentes comunes
+│       ├── ShoppingList.js      # Lista de compras
+│       └── NetworkDiagnostic.js # Diagnóstico de red
+├── services/              # Servicios de API
+│   └── api.js            # Cliente de API REST
+├── config/               # Configuración
+│   └── constants.js      # Constantes y configuración
+├── utils/                # Utilidades
+│   └── helpers.js        # Funciones auxiliares
+└── App.js               # Componente principal
+
+4.2 Componentes Principales
+
+4.2.1 Dashboard.js
+• Propósito: Panel principal de la aplicación
+• Funcionalidades:
+  - Subida y detección de ingredientes por imagen
+  - Gestión de ingredientes personales
+  - Navegación a otras secciones
+  - Información del usuario
+
+4.2.2 RecipeGenerator.js
+• Propósito: Generación automática de recetas con IA
+• Funcionalidades:
+  - Selección de ingredientes disponibles
+  - Generación de múltiples recetas con OpenAI
+  - Cálculo automático de información nutricional
+  - Guardado de recetas favoritas
+
+4.2.3 WeeklyMenuPlanner.js
+• Propósito: Planificación de menús semanales
+• Funcionalidades:
+  - Vista de calendario semanal
+  - Asignación de recetas por día y comida
+  - Generación automática de listas de compras
+  - Navegación entre semanas
+
+4.3 Gestión de Estado
+
+• Estado Local: useState para componentes individuales
+• Comunicación con API: Axios con interceptors
+• Autenticación: JWT tokens en localStorage
+• Manejo de Errores: Try-catch con mensajes user-friendly
+
+═══════════════════════════════════════════════════════════════════════════
+
+5. BACKEND - API REST
+
+5.1 Estructura de Carpetas
+
+backend/src/
+├── controllers/           # Controladores de rutas
+│   ├── authController.js          # Autenticación
+│   ├── ingredientController.js    # Gestión de ingredientes
+│   ├── recipeController.js        # Gestión de recetas
+│   ├── weeklyMenuController.js    # Menús semanales
+│   └── notificationController.js  # Notificaciones
+├── models/               # Modelos de datos (Mongoose)
+│   ├── User.js           # Usuario
+│   ├── Ingredient.js     # Ingrediente
+│   ├── Recipe.js         # Receta
+│   ├── WeeklyMenu.js     # Menú semanal
+│   └── NotificationPreferences.js # Preferencias
+├── routes/               # Definición de rutas
+│   ├── authRoutes.js     # /api/auth/*
+│   ├── ingredientRoutes.js # /api/ingredients/*
+│   ├── recipeRoutes.js   # /api/recipes/*
+│   ├── weeklyMenuRoutes.js # /api/weekly-menu/*
+│   └── notificationRoutes.js # /api/notifications/*
+├── middleware/           # Middleware personalizado
+│   ├── authMiddleware.js # Verificación JWT
+│   └── uploadMiddleware.js # Manejo de archivos
+├── services/             # Servicios de negocio
+│   ├── emailService.js             # Envío de emails
+│   ├── notificationScheduler.js   # Programador de tareas
+│   └── nutritionCalculatorService.js # Cálculo nutricional
+├── config/               # Configuración
+│   └── db.js            # Conexión a MongoDB
+└── index.js             # Punto de entrada del servidor
+
+5.2 Endpoints Principales
+
+5.2.1 Autenticación (/api/auth)
+POST /api/auth/register     # Registro de usuario
+POST /api/auth/login        # Inicio de sesión
+GET  /api/auth/profile      # Perfil del usuario
+PUT  /api/auth/profile      # Actualizar perfil
+
+5.2.2 Ingredientes (/api/ingredients)
+GET    /api/ingredients              # Listar ingredientes
+POST   /api/ingredients              # Crear ingrediente
+PUT    /api/ingredients/:id          # Actualizar ingrediente
+DELETE /api/ingredients/:id          # Eliminar ingrediente
+POST   /api/ingredients/detect-image # Detectar por imagen
+
+5.2.3 Recetas (/api/recipes)
+GET  /api/recipes                    # Listar recetas
+POST /api/recipes                    # Crear receta
+PUT  /api/recipes/:id                # Actualizar receta
+DELETE /api/recipes/:id              # Eliminar receta
+POST /api/recipes/generate           # Generar con IA
+PUT  /api/recipes/:id/favorite       # Marcar favorita
+
+5.2.4 Menú Semanal (/api/weekly-menu)
+GET  /api/weekly-menu              # Obtener menú actual
+POST /api/weekly-menu              # Crear/actualizar menú
+GET  /api/weekly-menu/shopping-list # Generar lista de compras
+
+5.3 Servicios de Negocio
+
+5.3.1 nutritionCalculatorService.js
+Servicio para cálculo automático de información nutricional
+• Base de datos de 40+ ingredientes comunes
+• Cálculo por cantidad y unidad
+• Información completa: calorías, proteínas, carbohidratos, grasas
+
+5.3.2 emailService.js
+Servicio de envío de emails con Nodemailer
+• Configuración SMTP de Gmail
+• Templates HTML personalizados
+• Notificaciones de comidas programadas
+
+5.3.3 notificationScheduler.js
+Programador de tareas con node-cron
+• Verificación cada minuto de notificaciones pendientes
+• Envío automático según preferencias del usuario
+• Gestión de estado de notificaciones
+
+═══════════════════════════════════════════════════════════════════════════
+
+6. BASE DE DATOS
+
+6.1 Esquemas de MongoDB
+
+6.1.1 Modelo User
+{
+  _id: ObjectId,
+  name: String,
+  email: String (unique),
+  password: String (hashed),
+  createdAt: Date,
+  updatedAt: Date
+}
+
+6.1.2 Modelo Recipe
+{
+  _id: ObjectId,
+  user_id: ObjectId (ref: User),
+  name: String,
+  ingredients_needed: [String],
+  instructions: [String],
+  prep_time: String,
+  servings: Number,
+  difficulty: String,
+  description: String,
+  category: String,
+  is_favorite: Boolean,
+  nutritional_info: {
+    calories: Number,
+    protein: Number,
+    carbohydrates: Number,
+    fat: Number,
+    fiber: Number,
+    sugar: Number
+  },
+  createdAt: Date,
+  updatedAt: Date
+}
+
+6.1.3 Modelo WeeklyMenu
+{
+  _id: ObjectId,
+  user_id: ObjectId (ref: User),
+  week_start: Date,
+  meals: {
+    monday: {
+      breakfast: { recipe_id: ObjectId, recipe_name: String },
+      lunch: { recipe_id: ObjectId, recipe_name: String },
+      dinner: { recipe_id: ObjectId, recipe_name: String },
+      snack: { recipe_id: ObjectId, recipe_name: String }
+    },
+    // ... otros días
+  },
+  shopping_list_generated: Boolean,
+  createdAt: Date,
+  updatedAt: Date
+}
+
+6.2 Relaciones
+
+User (1) ──→ (N) Recipe
+User (1) ──→ (N) Ingredient  
+User (1) ──→ (N) WeeklyMenu
+User (1) ──→ (1) NotificationPreferences
+WeeklyMenu (N) ──→ (N) Recipe
+
+═══════════════════════════════════════════════════════════════════════════
+
+7. INTEGRACIONES EXTERNAS
+
+7.1 OpenAI GPT-4
+
+Propósito: Generación automática de recetas personalizadas basadas en ingredientes disponibles.
+
+Implementación:
+const generateRecipeWithAI = async (ingredients, preferences) => {
+  const prompt = `Eres un chef experto. Crea 10 recetas diferentes usando: ${ingredients.join(', ')}...`;
+  
+  const response = await openai.chat.completions.create({
+    model: "gpt-4",
+    messages: [{ role: "user", content: prompt }],
+    max_tokens: 4000,
+    temperature: 0.8
+  });
+  
+  return JSON.parse(response.choices[0].message.content);
+};
+
+Configuración:
+• Modelo: GPT-4
+• Max Tokens: 4000
+• Temperature: 0.8 (creatividad balanceada)
+• Timeout: 120 segundos
+
+7.2 Google Vision API
+
+Propósito: Detección automática de ingredientes en imágenes subidas por el usuario.
+
+Funcionalidades:
+• Reconocimiento de objetos en imágenes
+• Identificación de ingredientes alimentarios
+• Filtrado de resultados relevantes
+
+7.3 Gmail SMTP
+
+Propósito: Envío de notificaciones por email sobre horarios de comidas.
+
+Configuración:
+const transporter = nodemailer.createTransporter({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+});
+
+═══════════════════════════════════════════════════════════════════════════
+
+8. FUNCIONALIDADES PRINCIPALES
+
+8.1 Gestión de Usuarios
+✓ Registro con validación de email único
+✓ Login con JWT authentication
+✓ Perfil de usuario editable
+✓ Seguridad con bcrypt para contraseñas
+
+8.2 Gestión de Ingredientes
+✓ CRUD completo de ingredientes
+✓ Detección automática por imagen
+✓ Categorización por tipos
+✓ Gestión de cantidades y fechas
+
+8.3 Generación de Recetas con IA
+✓ Generación de múltiples recetas simultáneas
+✓ Personalización según preferencias
+✓ Cálculo automático de información nutricional
+✓ Sistema de favoritos
+
+8.4 Planificación de Menús
+✓ Vista de calendario semanal
+✓ Asignación de recetas por día/comida
+✓ Navegación entre semanas
+✓ Organización automática de recetas
+
+8.5 Lista de Compras Inteligente
+✓ Generación automática desde menú semanal
+✓ Agrupación por categorías
+✓ Evita duplicados de ingredientes
+✓ Interfaz interactiva para marcar comprados
+
+8.6 Sistema de Notificaciones
+✓ Configuración personalizada por comida
+✓ Programación de horarios específicos
+✓ Envío automático de emails
+✓ Gestión de preferencias de usuario
+
+8.7 Información Nutricional
+✓ Cálculo automático por receta
+✓ Base de datos nutricional de 40+ ingredientes
+✓ Visualización detallada de macronutrientes
+✓ Edición manual cuando sea necesario
+
+═══════════════════════════════════════════════════════════════════════════
+
+9. SEGURIDAD
+
+9.1 Autenticación y Autorización
+• JWT Tokens: Autenticación stateless
+• Bcrypt: Hash de contraseñas con salt
+• Middleware de Autenticación: Verificación en rutas protegidas
+• Expiración de Tokens: Sesiones con tiempo limitado
+
+9.2 Validación de Datos
+• Validación del Frontend: Formularios con validación en tiempo real
+• Validación del Backend: Mongoose schemas con validaciones
+• Sanitización: Limpieza de inputs para prevenir inyecciones
+
+9.3 Manejo de Archivos
+• Multer: Middleware seguro para subida de archivos
+• Validación de Tipos: Solo imágenes permitidas
+• Límites de Tamaño: Máximo 50MB por archivo
+• Almacenamiento Seguro: Archivos en directorio protegido
+
+9.4 CORS y Headers
+• CORS Configurado: Acceso controlado desde dominios específicos
+• Headers de Seguridad: Configuración de headers HTTP seguros
+• Rate Limiting: Protección contra ataques de fuerza bruta
+
+═══════════════════════════════════════════════════════════════════════════
+
+10. INSTALACIÓN Y CONFIGURACIÓN
+
+10.1 Requisitos del Sistema
+• Node.js: v18.x o superior
+• MongoDB: v5.x o superior
+• NPM: v8.x o superior
+• Sistema Operativo: Windows, macOS, Linux
+
+10.2 Instalación del Backend
+
+# 1. Navegar al directorio del backend
+cd backend
+
+# 2. Instalar dependencias
+npm install
+
+# 3. Configurar variables de entorno (.env)
+PORT=5000
+MONGODB_URI=mongodb://localhost:27017/menu-planner
+JWT_SECRET=tuClaveSecretaSegura
+EMAIL_USER=tu-email@gmail.com
+EMAIL_PASS=tu-password-de-aplicacion
+OPENAI_API_KEY=tu-api-key-de-openai
+
+# 4. Iniciar el servidor
+npm start
+
+10.3 Instalación del Frontend
+
+# 1. Navegar al directorio del frontend
+cd frontend
+
+# 2. Instalar dependencias
+npm install
+
+# 3. Iniciar la aplicación
+npm start
+
+10.4 Configuración de Base de Datos
+
+Conexión automática a MongoDB
+El backend se conectará automáticamente usando la URL configurada
+Se crearán las colecciones automáticamente al insertar el primer documento
+
+═══════════════════════════════════════════════════════════════════════════
+
+11. GUÍAS DE USUARIO
+
+11.1 Primeros Pasos
+
+1. Registro: Crear cuenta con email y contraseña
+2. Login: Iniciar sesión en la aplicación
+3. Dashboard: Subir imagen para detectar ingredientes
+4. Ingredientes: Revisar y editar ingredientes detectados
+5. Generación: Ir al generador y crear recetas con IA
+6. Planificación: Organizar recetas en el menú semanal
+7. Notificaciones: Configurar alertas de comidas
+
+11.2 Funcionalidades Avanzadas
+
+Generación de Recetas con IA
+1. Seleccionar ingredientes disponibles
+2. Agregar preferencias opcionales (ej: "sin gluten, vegetariano")
+3. Hacer clic en "Generar 10 Recetas con IA"
+4. Esperar 1-2 minutos para la generación
+5. Revisar recetas generadas con información nutricional
+6. Guardar favoritas o generar nuevas
+
+Planificación de Menús
+1. Navegar al Planificador Semanal
+2. Seleccionar semana deseada
+3. Hacer clic en cualquier comida (desayuno, almuerzo, cena, merienda)
+4. Elegir receta de la lista disponible
+5. Ver menú completo y generar lista de compras
+
+Lista de Compras
+1. Generar desde el menú semanal
+2. Revisar ingredientes agrupados por categoría
+3. Marcar elementos como comprados
+4. Usar en el supermercado desde el móvil
+
+═══════════════════════════════════════════════════════════════════════════
+
+12. CONCLUSIONES Y TRABAJO FUTURO
+
+12.1 Logros Alcanzados
+
+✓ Aplicación Completa: Sistema funcional end-to-end
+✓ Inteligencia Artificial: Integración exitosa con OpenAI GPT-4
+✓ Automatización: Cálculo nutricional y detección de ingredientes
+✓ Usabilidad: Interfaz intuitiva y responsive
+✓ Escalabilidad: Arquitectura modular y extensible
+✓ Seguridad: Implementación de buenas prácticas de seguridad
+
+12.2 Impacto y Beneficios
+
+• Ahorro de Tiempo: Automatización de planificación de comidas
+• Mejora Nutricional: Información detallada de macronutrientes
+• Reducción de Desperdicio: Uso eficiente de ingredientes disponibles
+• Conveniencia: Notificaciones automáticas y listas de compras
+• Creatividad Culinaria: Generación de recetas variadas con IA
+
+12.3 Trabajo Futuro
+
+Funcionalidades Planificadas
+• Aplicación Móvil: Desarrollo de app nativa iOS/Android
+• Integración con Supermercados: API para compras online
+• Funciones Sociales: Compartir recetas entre usuarios
+• Analytics Avanzados: Reportes de hábitos alimentarios
+• Internacionalización: Soporte para múltiples idiomas
+• Búsqueda Avanzada: Filtros por ingredientes, tiempo, dificultad
+• Control de Presupuesto: Estimación de costos por receta
+
+Mejoras Técnicas
+• Performance: Optimización de consultas y caching
+• PWA: Conversión a Progressive Web App
+• Sincronización: Datos en tiempo real con WebSockets
+• Testing: Implementación de tests automatizados
+• Monitoring: Herramientas de monitoreo y logging
+• Containerización: Deployment con Docker
+
+═══════════════════════════════════════════════════════════════════════════
+
+INFORMACIÓN DE CONTACTO
+
+Desarrollador: Jorge Medina
+Universidad: Universidad Mariano Gálvez de Guatemala
+Email: jorgemedinaruiz56@gmail.com
+Fecha de Entrega: Octubre 2024
+
+═══════════════════════════════════════════════════════════════════════════
+
+LICENCIA
+
+Este proyecto es desarrollado como parte del programa académico de la Universidad Mariano Gálvez de Guatemala y está destinado para fines educativos.
+
+═══════════════════════════════════════════════════════════════════════════
+
+Documentación generada automáticamente - Octubre 2024

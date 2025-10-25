@@ -1,0 +1,51 @@
+# FUNCIÓN DE CADA CARPETA DEL BACKEND
+# =========================================
+
+📁 config/
+FUNCIÓN: Configuración de la base de datos
+- Conexión a MongoDB
+- Configuraciones de desarrollo/producción
+
+📁 controllers/
+FUNCIÓN: Lógica de negocio y procesamiento de peticiones
+- authController.js → Login, registro, perfiles
+- ingredientController.js → CRUD ingredientes + detección IA
+- recipeController.js → CRUD recetas + generación con OpenAI
+- weeklyMenuController.js → Planificación menús semanales
+- notificationController.js → Gestión de notificaciones
+
+📁 middleware/
+FUNCIÓN: Funciones intermedias para procesar peticiones
+- authMiddleware.js → Verificar tokens JWT (seguridad)
+- uploadMiddleware.js → Manejo de imágenes subidas
+
+📁 models/
+FUNCIÓN: Esquemas de datos para MongoDB
+- User.js → Estructura de usuarios
+- Recipe.js → Estructura de recetas
+- Ingredient.js → Estructura de ingredientes
+- WeeklyMenu.js → Estructura de menús semanales
+- NotificationPreferences.js → Configuración de notificaciones
+
+📁 routes/
+FUNCIÓN: Definición de endpoints de la API
+- authRoutes.js → /api/auth/* (login, registro)
+- ingredientRoutes.js → /api/ingredients/* (CRUD ingredientes)
+- recipeRoutes.js → /api/recipes/* (CRUD recetas)
+- weeklyMenuRoutes.js → /api/weekly-menu/* (planificación)
+- notificationRoutes.js → /api/notifications/* (configuración)
+
+📁 services/
+FUNCIÓN: Servicios especializados y lógica compleja
+- emailService.js → Envío automático de correos
+- notificationScheduler.js → Programación de notificaciones
+- nutritionCalculatorService.js → Cálculo automático de nutrición
+
+# RESUMEN ULTRA CORTO:
+# =====================
+config/     → Conectar base de datos
+controllers/ → Procesar peticiones del frontend
+middleware/  → Seguridad y validaciones
+models/      → Estructura de datos
+routes/      → Definir URLs de la API
+services/    → Funciones especiales (IA, emails, etc.)
