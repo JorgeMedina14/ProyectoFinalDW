@@ -204,28 +204,6 @@ npm start
 - 📧 **Sistemas de Notificación** automatizados
 - 🛡️ **Implementación de Seguridad** web
 
-## 👨‍💻 **Información del Desarrollador**
-
-**Jorge Medina**
-- 🏫 **Universidad**: Universidad Mariano Gálvez de Guatemala
-- 📧 **Email**: jorgemedinaruiz56@gmail.com
-- 📅 **Fecha**: Octubre 2024
-- 💼 **Carrera**: Desarrollo Web
-
-## 🔮 **Roadmap Futuro**
-
-### **Versión 2.0 (Próximas 6 meses)**
-- 📱 **App Móvil Nativa** (React Native)
-- 🛒 **Integración Supermercados** (APIs de tiendas)
-- 👥 **Red Social de Recetas** (compartir entre usuarios)
-- 🌍 **Internacionalización** (múltiples idiomas)
-
-### **Versión 3.0 (Futuro)**
-- 💰 **Control de Presupuesto** por receta
-- 📊 **Analytics Avanzados** de hábitos alimentarios
-- 🎯 **IA Personalizada** que aprende preferencias
-- 🔄 **Integración IoT** con electrodomésticos inteligentes
-
 ## 📄 **Licencia**
 
 Este proyecto fue desarrollado con **fines académicos** para la Universidad Mariano Gálvez de Guatemala. El código está disponible para **revisión educativa** y **mejoras colaborativas**.
@@ -240,24 +218,3 @@ Este proyecto fue desarrollado con **fines académicos** para la Universidad Mar
 4. **Push** al branch (`git push origin feature/AmazingFeature`)
 5. **Abrir Pull Request**
 
-## 📞 **Soporte**
-
-¿Problemas con la instalación? ¿Ideas para mejoras?
-
-- 📧 **Email**: jorgemedinaruiz56@gmail.com
-- 🐛 **Issues**: [GitHub Issues](https://github.com/JorgeMedina14/ProyectoFinalDW/issues)
-- 📖 **Documentación**: Ver carpeta `/docs/`
-
----
-
-<div align="center">
-
-### ⭐ **¡Si te gusta el proyecto, dale una estrella!** ⭐
-
-**Desarrollado con ❤️ para la Universidad Mariano Gálvez de Guatemala**
-
-![Footer](https://img.shields.io/badge/Universidad-Mariano%20Gálvez-blue.svg)
-![Year](https://img.shields.io/badge/Año-2024-green.svg)
-![Status](https://img.shields.io/badge/Estado-Proyecto%20Finalizado-brightgreen.svg)
-
-</div>
